@@ -13,7 +13,13 @@ const config = {
 	kit: {
 		adapter: adapter({
 			precompress: true
-		})
+		}),
+		files: {
+			hooks: {
+				server: 'src/lib/hook/hook.server',
+				client: 'src/lib/hook/hook.client'
+			}
+		}
 	}
 };
 
