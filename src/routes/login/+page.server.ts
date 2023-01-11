@@ -1,12 +1,13 @@
-import type { PageServerLoad, Actions, Action } from "./$types";
+import type { Actions, PageServerLoad } from "./$types";
 import { fail, redirect } from "@sveltejs/kit";
 import bcrypt from 'bcrypt'
 
 import { database } from "$lib/module/database/database";
 
-
-export const load: PageServerLoad = async () => {
-  // todo
+export const load: PageServerLoad = async ({ locals }) => {
+  if (locals.user) {
+    throw redirect(302, '/dashboard')
+  }
 }
 
 export const actions: Actions = {

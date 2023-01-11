@@ -1,17 +1,11 @@
 import { redirect } from "@sveltejs/kit";
-import type { Actions, PageServerLoad } from "./$types";
+import type { PageServerLoad } from "./$types";
 
-export const load: PageServerLoad = async () => {
-  throw redirect(302, '/')
-}
+export const load: PageServerLoad = async ({ cookies }) => {
+  cookies.set('auth', '', {
+    path: '/',
+    expires: new Date(0)
+  })
 
-export const actions: Actions = {
-  default: async ({ cookies }) => {
-    cookies.set('auth', '', {
-      path: '/',
-      expires: new Date(0)
-    })
-
-    throw redirect(302, '/login')
-  }
+  throw redirect(302, '/login')
 }
