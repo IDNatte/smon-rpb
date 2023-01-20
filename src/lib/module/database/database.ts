@@ -1,4 +1,3 @@
-import prisma from "@prisma/client"
+import prisma from '@prisma/client';
 
-export const database = new prisma.PrismaClient()
-
+export const database = new prisma.PrismaClient();

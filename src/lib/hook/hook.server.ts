@@ -1,23 +1,23 @@
-import type { Handle } from "@sveltejs/kit";
-import { database } from "$lib/module/database/database";
+import type { Handle } from '@sveltejs/kit';
+import { database } from '$lib/module/database/database';
 
 export const handle: Handle = async ({ event, resolve }) => {
-  const session = event.cookies.get('auth')
+	const session = event.cookies.get('auth');
 
-  if (!session) {
-    return await resolve(event)
-  }
+	if (!session) {
+		return await resolve(event);
+	}
 
-  const user = await database.user.findUnique({
-    where: { userAuthToken: session },
-    select: { username: true }
-  })
+	const user = await database.user.findUnique({
+		where: { userAuthToken: session },
+		select: { username: true }
+	});
 
-  if (user) {
-    event.locals.user = {
-      name: user.username
-    }
-  }
+	if (user) {
+		event.locals.user = {
+			name: user.username
+		};
+	}
 
-  return await resolve(event)
-}
+	return await resolve(event);
+};
