@@ -542,6 +542,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/os-utils@npm:^0.0.1":
+  version: 0.0.1
+  resolution: "@types/os-utils@npm:0.0.1"
+  checksum: 93a5b912562a3ec86fbf6c514d115e4c5a5be4fc97cb7a808394904163db24a57a14e07f57367699f623b8e5426e8532b8ad1b9268bbfabaee94a936039718d2
+  languageName: node
+  linkType: hard
+
 "@types/pug@npm:^2.0.4":
   version: 2.0.6
   resolution: "@types/pug@npm:2.0.6"
@@ -689,6 +696,13 @@ __metadata:
     "@typescript-eslint/types": 5.48.0
     eslint-visitor-keys: ^3.3.0
   checksum: 8d41fb7c93b79df415b43c31da7c9007074d78ab6f16c2d318c23e7974b578ce510f466a9584bd67c526367666974091cb5cfbf6670d29e36fb4ab2e57137515
+  languageName: node
+  linkType: hard
+
+"@zerodevx/svelte-json-view@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "@zerodevx/svelte-json-view@npm:1.0.1"
+  checksum: 25be6bcc9d556d95ee07286785d946abc787eb7da968acee9a9af8f20bdacc1c0932219bd272442623ff92a869476cb86d348a94fddefa72d8fd8e66660c27b1
   languageName: node
   linkType: hard
 
@@ -2633,6 +2647,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"os-utils@npm:^0.0.14":
+  version: 0.0.14
+  resolution: "os-utils@npm:0.0.14"
+  checksum: bc0ee91ffca6f05150ab5d6a7fe5c691cca8eedff43afcc7a4e24a5d228c3b0a26fa841236d20b5fa385e3a07d8aed79a0eceebc8818a196cd18d2ca3546e098
+  languageName: node
+  linkType: hard
+
 "p-limit@npm:^3.0.2":
   version: 3.1.0
   resolution: "p-limit@npm:3.1.0"
@@ -3133,18 +3154,22 @@ __metadata:
     "@sveltejs/kit": ^1.0.0
     "@tailwindcss/forms": ^0.5.3
     "@types/bcrypt": ^5.0.0
+    "@types/os-utils": ^0.0.1
     "@typescript-eslint/eslint-plugin": ^5.45.0
     "@typescript-eslint/parser": ^5.45.0
+    "@zerodevx/svelte-json-view": ^1.0.1
     autoprefixer: ^10.4.13
     bcrypt: ^5.1.0
     eslint: ^8.28.0
     eslint-config-prettier: ^8.5.0
     eslint-plugin-svelte3: ^4.0.0
+    os-utils: ^0.0.14
     postcss: ^8.4.20
     prettier: ^2.8.0
     prettier-plugin-svelte: ^2.8.1
     svelte: ^3.54.0
     svelte-check: ^2.9.2
+    systeminformation: ^5.17.4
     tailwindcss: ^3.2.4
     tslib: ^2.4.1
     typescript: ^4.9.3
@@ -3377,6 +3402,16 @@ __metadata:
   version: 3.55.0
   resolution: "svelte@npm:3.55.0"
   checksum: 0b182973a4152fec8baa59cc168ca4528d63faba130bc83063a7d55d1732a81303b48745f4bffe53436b875b9c98960b0265d45473e5b3d25c77b116fdc274f0
+  languageName: node
+  linkType: hard
+
+"systeminformation@npm:^5.17.4":
+  version: 5.17.4
+  resolution: "systeminformation@npm:5.17.4"
+  bin:
+    systeminformation: lib/cli.js
+  checksum: 4453b65fa1c6f673aa225dde6da53effd0ef671bb8d7f202c217e0ec634693a1b1738c19ee53ecfde5eec02ae66568b94135f0db2bc34016776f4dd67d6a9a89
+  conditions: (os=darwin | os=linux | os=win32 | os=freebsd | os=openbsd | os=netbsd | os=sunos | os=android)
   languageName: node
   linkType: hard
 
