@@ -19,16 +19,6 @@ const config = {
 				server: 'src/lib/hook/hook.server',
 				client: 'src/lib/hook/hook.client'
 			}
-		},
-		csp: {
-			directives: {
-				'default-src': ['self']
-			},
-			reportOnly: {
-				'default-src': ['self'],
-				'report-uri': ['self'],
-				'report-to': ['self']
-			}
 		}
 	}
 };

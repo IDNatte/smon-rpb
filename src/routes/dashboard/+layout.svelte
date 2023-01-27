@@ -7,7 +7,7 @@
 		<div class="w-[5%] h-screen fixed bg-white">
 			<SidebarComponent />
 		</div>
-		<div class="main-content w-[95%] grid grid-cols-3 gap-8 ml-[5em] p-[3em]">
+		<div class="main-content w-[95%] ml-[5em] p-[3em]">
 			<slot />
 		</div>
 	</div>
