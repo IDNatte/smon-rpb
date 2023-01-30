@@ -699,13 +699,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zerodevx/svelte-json-view@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "@zerodevx/svelte-json-view@npm:1.0.1"
-  checksum: 25be6bcc9d556d95ee07286785d946abc787eb7da968acee9a9af8f20bdacc1c0932219bd272442623ff92a869476cb86d348a94fddefa72d8fd8e66660c27b1
-  languageName: node
-  linkType: hard
-
 "abbrev@npm:1, abbrev@npm:^1.0.0":
   version: 1.1.1
   resolution: "abbrev@npm:1.1.1"
@@ -3164,7 +3157,6 @@ __metadata:
     "@types/os-utils": ^0.0.1
     "@typescript-eslint/eslint-plugin": ^5.45.0
     "@typescript-eslint/parser": ^5.45.0
-    "@zerodevx/svelte-json-view": ^1.0.1
     autoprefixer: ^10.4.13
     bcrypt: ^5.1.0
     dotenv: ^16.0.3
