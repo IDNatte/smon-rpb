@@ -1,14 +1,19 @@
 <script lang="ts">
 	import type { PageServerData } from './$types';
 
-	import { JsonView } from '@zerodevx/svelte-json-view';
+	import { formatBytes } from '$lib/module/ui/bytes';
+	import { truncate } from '$lib/module/ui/truncate';
+
 	import CardComponent from '$lib/comoponents/card/CardComponent.svelte';
 	import ChipLogo from '$lib/comoponents/svg/ChipLogo.svelte';
 
-	import { truncate } from '$lib/module/ui/truncate';
-	import UserLogo from '$lib/comoponents/svg/UserLogo.svelte';
-	import ScreenLogo from '$lib/comoponents/svg/ScreenLogo.svelte';
 	import VerticalCardComponent from '$lib/comoponents/card/VerticalCardComponent.svelte';
+	import ChipSolidLogo from '$lib/comoponents/svg/ChipSolidLogo.svelte';
+	import MemoryLogo from '$lib/comoponents/svg/MemoryLogo.svelte';
+	import ScreenLogo from '$lib/comoponents/svg/ScreenLogo.svelte';
+	import SignalLogo from '$lib/comoponents/svg/SignalLogo.svelte';
+	import UserLogo from '$lib/comoponents/svg/UserLogo.svelte';
+	import DiskLogo from '$lib/comoponents/svg/DiskLogo.svelte';
 
 	export let data: PageServerData;
 </script>
@@ -16,7 +21,7 @@
 <div class="grid grid-cols-1 gap-8 pb-20">
 	<CardComponent height="h-auto">
 		<span slot="title">os info</span>
-		<div class="flex justify-around py-5">
+		<div class="grid grid-cols-3 gap-5 py-5">
 			<VerticalCardComponent height="h-auto">
 				<ScreenLogo width="2rem" height="auto" className="px-4 py-5 flex items-center border-r" />
 				<div class="flex flex-col p-6">
@@ -27,83 +32,140 @@
 			</VerticalCardComponent>
 
 			<VerticalCardComponent height="h-auto">
-				<UserLogo width="2rem" height="auto" className="px-4 py-5 flex items-center border-r" />
+				<ChipSolidLogo
+					width="2rem"
+					height="auto"
+					className="px-4 py-5 flex items-center border-r"
+				/>
 				<div class="flex flex-col p-6">
-					<span class="block w-full font-bold">{data.sys.os.platform} {data.sys.os.arch}</span>
-					<span class="block w-full">{data.sys.os.hostname}</span>
-					<span class="block w-full">{data.sys.os.distro}</span>
+					<span class="block w-full font-bold"
+						>{Math.floor(data.cpu.cpuLoad.currentLoad).toFixed(2)}%, Temp. (&#176;C) {data.cpu
+							.cpuTemp.main}</span
+					>
+					<span class="block w-full">Avg. Load {data.cpu.cpuLoad.avgLoad}</span>
+					<span class="block w-full"
+						>Iddle Load {Math.floor(data.cpu.cpuLoad.currentLoadIdle)}%</span
+					>
 				</div>
 			</VerticalCardComponent>
+
+			<VerticalCardComponent height="h-auto">
+				<MemoryLogo width="2rem" height="auto" className="px-4 py-5 flex items-center border-r" />
+				<div class="flex flex-col p-6">
+					<span class="block w-full font-bold"
+						>{formatBytes(data.memory.used)} of {formatBytes(data.memory.total)}
+					</span>
+					<span class="block w-full"
+						>{formatBytes(data.memory.available)} of {formatBytes(data.memory.total)}</span
+					>
+					<span class="block w-full">Total {formatBytes(data.memory.total)}</span>
+				</div>
+			</VerticalCardComponent>
+		</div>
+		<div class="grid grid-cols-1 gap-5 py-5">
+			<CardComponent height="h-[12em]">
+				<span slot="title">user list Info</span>
+				<ul>
+					{#each data.sys.userDetails as { user }}
+						<li class="flex items-center my-3 py-2 px-2 border rounded">
+							<UserLogo width="2em" height="auto" className="pr-3" />
+							<div class="block w-full">
+								<span class="block w-full">{truncate(user, 25)}</span>
+							</div>
+						</li>
+					{/each}
+				</ul>
+			</CardComponent>
 		</div>
 	</CardComponent>
 </div>
 
-<div class="grid grid-cols-4 gap-8 pb-20">
-	<CardComponent>
-		<span slot="title">CPU Info</span>
-		<span>Temp {data.cpu.cpuTemp.main}</span>
-		<span>CPU average Load {data.cpu.cpuLoad.avgLoad}</span>
-		<span>CPU current Load {Math.round(data.cpu.cpuLoad.currentLoad)}%</span>
-		<span>CPU Iddle load {Math.round(data.cpu.cpuLoad.currentLoadIdle)}%</span>
-	</CardComponent>
+<div class="grid grid-cols-1 gap-8 pb-20">
+	<CardComponent height="h-auto">
+		<span slot="title">Networking</span>
 
-	<CardComponent>
-		<span slot="title">Memory Info</span>
-		<span>Total Memory {new Intl.NumberFormat().format(data.memory.total)}</span>
-		<span>used Memory {new Intl.NumberFormat().format(data.memory.used)}</span>
-		<span>available Memory {new Intl.NumberFormat().format(data.memory.available)}</span>
-	</CardComponent>
+		<div class="grid grid-cols-2 gap-8 py-5">
+			<CardComponent>
+				<span slot="title">Network Stats</span>
+				<ul>
+					{#each data.network.netStat as { iface, rx_bytes, tx_bytes, rx_sec, tx_sec }}
+						<li class="flex items-center my-3 py-2 px-2 border rounded">
+							<SignalLogo width="2em" height="auto" className="pr-3" />
+							<div class="block w-full">
+								<span class="block w-full uppercase font-semibold">{truncate(iface, 25)}</span>
+								<div class="w-full flex justify-between">
+									<span class="capitalize">received</span>
+									<span class="capitalize">{formatBytes(rx_bytes)}</span>
+								</div>
 
-	<CardComponent>
-		<span slot="title">Disk Info</span>
-		<ul>
-			{#each data.disk as { fs, type, size, available, used, use, mount }}
-				<li class="flex items-center my-3 py-2 px-2 border rounded">
-					<ChipLogo width="2em" height="auto" className="pr-3" />
-					<div class="block w-full">
-						<span class="block w-full uppercase font-semibold">{truncate(fs, 25)}</span>
-						<div class="w-full flex justify-between">
-							<span class="capitalize">disk Type</span>
-							<span class="capitalize">{type}</span>
-						</div>
+								<div class="w-full flex justify-between">
+									<span class="capitalize">transfered</span>
+									<span class="capitalize">{formatBytes(tx_bytes)}</span>
+								</div>
 
-						<div class="w-full flex justify-between">
-							<span class="capitalize">mount point</span>
-							<span class="capitalize">{mount}</span>
-						</div>
+								<div class="w-full flex justify-between">
+									<span class="capitalize">received rates / second</span>
+									<span class="capitalize">{Math.floor(rx_sec)} b/s</span>
+								</div>
 
-						<div class="w-full flex justify-between">
-							<span class="capitalize">size (bytes)</span>
-							<span class="capitalize">{new Intl.NumberFormat().format(size)}</span>
-						</div>
+								<div class="w-full flex justify-between">
+									<span class="capitalize">transfer rates / second</span>
+									<span class="capitalize">{Math.floor(tx_sec)} b/s</span>
+								</div>
+							</div>
+						</li>
+					{/each}
+				</ul>
+			</CardComponent>
 
-						<div class="w-full flex justify-between">
-							<span class="capitalize">free (bytes)</span>
-							<span class="capitalize">{new Intl.NumberFormat().format(available)}</span>
-						</div>
+			<CardComponent>
+				<span slot="title">Network Interface</span>
+				<ul>
+					{#each data.network.netIface as { iface, ifaceName, ip4, ip6, mac, type, operstate }}
+						<li class="flex items-center my-3 py-2 px-2 border rounded">
+							<SignalLogo width="2em" height="auto" className="pr-3" />
+							<div class="block w-full">
+								<span class="block w-full uppercase font-semibold">{truncate(iface, 25)}</span>
 
-						<div class="w-full flex justify-between">
-							<span class="capitalize">used (bytes): </span>
-							<span class="capitalize">{new Intl.NumberFormat().format(used)}</span>
-						</div>
+								<div class="w-full flex justify-between">
+									<span class="capitalize">Full name</span>
+									<span class="capitalize">{ifaceName}</span>
+								</div>
 
-						<div class="w-full flex justify-between">
-							<span class="capitalize">used (%): </span>
-							<span class="capitalize">{use}%</span>
-						</div>
-					</div>
-				</li>
-			{/each}
-		</ul>
-	</CardComponent>
+								<div class="w-full flex justify-between">
+									<span class="capitalize">MAC Address</span>
+									<span class="capitalize">{mac}</span>
+								</div>
 
-	<CardComponent>
-		<span slot="title">Network Info</span>
-		<JsonView json={data.network} />
+								<div class="w-full flex justify-between">
+									<span class="capitalize">IPv4 address</span>
+									<span class="capitalize">{ip4}</span>
+								</div>
+
+								<div class="w-full flex justify-between">
+									<span class="capitalize">IPv6 address</span>
+									<span class="capitalize">{ip6}</span>
+								</div>
+
+								<div class="w-full flex justify-between">
+									<span class="capitalize">connection type</span>
+									<span class="capitalize">{type}</span>
+								</div>
+
+								<div class="w-full flex justify-between">
+									<span class="capitalize">State</span>
+									<span class="capitalize">{operstate}</span>
+								</div>
+							</div>
+						</li>
+					{/each}
+				</ul>
+			</CardComponent>
+		</div>
 	</CardComponent>
 </div>
 
-<div class="grid grid-cols-2 gap-8">
+<div class="grid grid-cols-3 gap-8">
 	<CardComponent>
 		<span slot="title">Services List</span>
 		{#each data.services as { name, running, mem, cpu, startmode }}
@@ -129,9 +191,54 @@
 	</CardComponent>
 
 	<CardComponent>
+		<span slot="title">Disk Info</span>
+		<ul>
+			{#each data.disk as { fs, type, size, available, used, use, mount }}
+				<li class="flex items-center my-3 py-2 px-2 border rounded">
+					<DiskLogo width="2em" height="auto" className="pr-3" />
+					<div class="block w-full">
+						<span class="block w-full uppercase font-semibold">{truncate(fs, 25)}</span>
+						<div class="w-full flex justify-between">
+							<span class="capitalize">disk Type</span>
+							<span class="capitalize">{type}</span>
+						</div>
+
+						<div class="w-full flex justify-between">
+							<span class="capitalize">mount point</span>
+							<span class="capitalize">{mount}</span>
+						</div>
+
+						<div class="w-full flex justify-between">
+							<span class="capitalize">used (%) </span>
+							<span class="capitalize">{use}%</span>
+						</div>
+
+						<div class="w-full flex justify-between">
+							<span class="capitalize">used</span>
+							<span class="capitalize">
+								{formatBytes(used)}
+							</span>
+						</div>
+
+						<div class="w-full flex justify-between">
+							<span class="capitalize">free</span>
+							<span class="capitalize">{formatBytes(available)}</span>
+						</div>
+
+						<div class="w-full flex justify-between">
+							<span class="capitalize">size</span>
+							<span class="capitalize">{formatBytes(size)}</span>
+						</div>
+					</div>
+				</li>
+			{/each}
+		</ul>
+	</CardComponent>
+
+	<CardComponent>
 		<div class="flex justify-between" slot="title">
-			<span class="text-amber-600">Process Info</span>
-			<span class="text-amber-600">{data.process.all}</span>
+			<span>Process Info</span>
+			<span>{data.process.all}</span>
 		</div>
 
 		<ul>
@@ -151,8 +258,8 @@
 						</div>
 
 						<div class="w-full flex justify-between">
-							<span class="capitalize">used memory: {Math.round(mem)}%</span>
-							<span class="capitalize">used CPU: {Math.round(cpu)}%</span>
+							<span class="capitalize">used memory: {Math.floor(mem)}%</span>
+							<span class="capitalize">used CPU: {Math.floor(cpu)}%</span>
 						</div>
 						<div class="block w-full" />
 					</div>
