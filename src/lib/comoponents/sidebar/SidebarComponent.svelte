@@ -18,6 +18,11 @@
 				</button>
 			</li>
 			<li class="py-4">
+				<a class="w-full" href="/dashboard/test">
+					<SettingsLogo height="1.7em" width="1.7em" className="flex justify-center" />
+				</a>
+			</li>
+			<li class="py-4">
 				<a class="w-full" href="/logout">
 					<LogoutLogo height="1.7em" width="1.7em" className="flex justify-center" />
 				</a>

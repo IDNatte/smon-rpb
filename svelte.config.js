@@ -14,6 +14,9 @@ const config = {
 		adapter: adapter({
 			precompress: true
 		}),
+		csrf: {
+			checkOrigin: false
+		},
 		files: {
 			hooks: {
 				server: 'src/lib/hook/hook.server',

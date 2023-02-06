@@ -3167,6 +3167,7 @@ __metadata:
     postcss: ^8.4.20
     prettier: ^2.8.0
     prettier-plugin-svelte: ^2.8.1
+    smoothie: ^1.36.1
     svelte: ^3.54.0
     svelte-check: ^2.9.2
     systeminformation: ^5.17.4
@@ -3177,6 +3178,13 @@ __metadata:
     vitest: ^0.25.3
   languageName: unknown
   linkType: soft
+
+"smoothie@npm:^1.36.1":
+  version: 1.36.1
+  resolution: "smoothie@npm:1.36.1"
+  checksum: b64cc1cd40c09494dad16fb3d78649c9f7829eda864e32d91177221c91896d241b9c63886c5953f6b7f12e332c6736715abc491d7c072c7b818f99a24392cfa9
+  languageName: node
+  linkType: hard
 
 "socks-proxy-agent@npm:^7.0.0":
   version: 7.0.0

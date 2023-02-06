@@ -1,13 +1,5 @@
 import { writable } from 'svelte/store';
-
-type DashboardStore = {
-  network: any,
-  services: any,
-  disk: any,
-  cpu: any,
-  process: any,
-  memory: any
-}
+import type { DashboardStore } from '$lib/module/ui/types/dashboard.types';
 
 export default writable<DashboardStore>({
   network: null,

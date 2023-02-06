@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
 	import type { ActionData } from './$types';
 
 	import UserLogo from '$lib/comoponents/svg/UserLogo.svelte';
@@ -22,7 +21,7 @@
 				<p class="text-red-400 pb-3 text-center">You have entered the wrong credentials</p>
 			{/if}
 
-			<form class="flex flex-col" action="/login" method="post" use:enhance>
+			<form class="flex flex-col" action="/login" method="post">
 				<div class="form-wrapper flex items-center justify-center py-2">
 					<label for="username">
 						<UserLogo />
