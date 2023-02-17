@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { afterNavigate, beforeNavigate } from '$app/navigation';
-	import { navigating } from '$app/stores';
 
 	export let height: string = '1.2em';
 	export let width: string = '1.2em';

@@ -1,4 +1,4 @@
 export interface ChartDataSeries {
-  seriesName: string,
-  data: number
+	seriesName: string;
+	data: number;
 }

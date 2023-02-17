@@ -2,7 +2,7 @@
 	import { onDestroy, onMount } from 'svelte';
 	import { SmoothieChart } from 'smoothie';
 
-	import type { PageData, PageServerData } from './$types';
+	import type { PageServerData } from './$types';
 	import type { ChartOpt } from '$lib/module/ui/types/ui.types';
 
 	import dashboardStore from '$lib/stores/dashboardStore';
@@ -22,7 +22,7 @@
 	import ChartNetworkBytesComponent from '$lib/comoponents/chart/network/ChartNetworkBytesComponent.svelte';
 	import ChartNetworkRatesComponent from '$lib/comoponents/chart/network/ChartNetworkRatesComponent.svelte';
 
-	export let data: PageData;
+	export let data: PageServerData;
 
 	let interval: any;
 

@@ -7,7 +7,6 @@ import {
 	fsSize,
 	osInfo,
 	users,
-	// processLoad,
 	networkStats,
 	networkInterfaces
 } from 'systeminformation';
@@ -55,16 +54,9 @@ export async function serviceInfo() {
 	return serviceList;
 }
 
-export async function appInfo() {
-	// const application = await processLoad('*')
-
-	// return application
-	return 'placeholder'
-}
-
 export async function netInfo() {
-	const netIface = await networkInterfaces()
-	const netStat = await networkStats()
+	const netIface = await networkInterfaces();
+	const netStat = await networkStats();
 
-	return { netStat, netIface }
+	return { netStat, netIface };
 }
