@@ -1,30 +1,48 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
-	import type { PageServerData } from './$types';
+	import { SmoothieChart } from 'smoothie';
 
+	import type { PageData, PageServerData } from './$types';
+	import type { ChartOpt } from '$lib/module/ui/types/ui.types';
+
+	import dashboardStore from '$lib/stores/dashboardStore';
 	import { formatBytes } from '$lib/module/ui/bytes';
 	import { truncate } from '$lib/module/ui/truncate';
-	import dashboardStore from '$lib/stores/dashboardStore';
-
-	// debugger
-
-	import CardComponent from '$lib/comoponents/card/CardComponent.svelte';
-	import ChipLogo from '$lib/comoponents/svg/ChipLogo.svelte';
 
 	import VerticalCardComponent from '$lib/comoponents/card/VerticalCardComponent.svelte';
+	import CardComponent from '$lib/comoponents/card/CardComponent.svelte';
+
 	import ChipSolidLogo from '$lib/comoponents/svg/ChipSolidLogo.svelte';
 	import MemoryLogo from '$lib/comoponents/svg/MemoryLogo.svelte';
 	import ScreenLogo from '$lib/comoponents/svg/ScreenLogo.svelte';
 	import SignalLogo from '$lib/comoponents/svg/SignalLogo.svelte';
+	import ChipLogo from '$lib/comoponents/svg/ChipLogo.svelte';
 	import UserLogo from '$lib/comoponents/svg/UserLogo.svelte';
 	import DiskLogo from '$lib/comoponents/svg/DiskLogo.svelte';
+	import ChartNetworkBytesComponent from '$lib/comoponents/chart/network/ChartNetworkBytesComponent.svelte';
+	import ChartNetworkRatesComponent from '$lib/comoponents/chart/network/ChartNetworkRatesComponent.svelte';
 
-	export let data: PageServerData;
+	export let data: PageData;
 
 	let interval: any;
 
+	let chartOpt: ChartOpt = {
+		delay: 7000,
+		tooltip: true,
+		timestampFormatter: SmoothieChart.timeFormatter,
+		minValue: 0,
+		tooltipLine: {
+			lineWidth: 2,
+			strokeStyle: '#fff'
+		},
+		lineWidth: 2,
+		responsive: true,
+		grid: {
+			millisPerLine: 5000
+		}
+	};
+
 	async function getData() {
-		const sysInfoCall = await fetch('/api/system/system');
 		const servInfoCall = await fetch('/api/system/services');
 		const netInfoCall = await fetch('/api/system/network');
 		const diskInfoCall = await fetch('/api/system/disk');
@@ -32,7 +50,6 @@
 		const procInfoCall = await fetch('/api/system/process');
 		const memInfoCall = await fetch('/api/system/memory');
 
-		const sys = await sysInfoCall.json();
 		const services = await servInfoCall.json();
 		const network = await netInfoCall.json();
 		const disk = await diskInfoCall.json();
@@ -51,7 +68,9 @@
 	}
 
 	onMount(async () => {
-		interval = setInterval(() => getData(), 5000);
+		interval = setInterval(() => {
+			getData();
+		}, 5000);
 	});
 
 	onDestroy(() => clearInterval(interval));
@@ -132,6 +151,30 @@
 	<CardComponent height="h-auto">
 		<span slot="title">Networking</span>
 		{#if $dashboardStore.network}
+			<div class="grid grid-cols-2 gap-8">
+				<CardComponent height="h-auto">
+					<span slot="title">Network Stats Tx/Rx Bytes</span>
+					<div class="py-5">
+						<ChartNetworkBytesComponent
+							chartName="Network Tx/Rx Bytes"
+							chartHeight="h-20"
+							{chartOpt}
+						/>
+					</div>
+				</CardComponent>
+
+				<CardComponent height="h-auto">
+					<span slot="title">Network Stats Tx/Rx Rates</span>
+					<div class="py-5">
+						<ChartNetworkRatesComponent
+							chartName="Network Tx/Rx Rates"
+							chartHeight="h-20"
+							{chartOpt}
+						/>
+					</div>
+				</CardComponent>
+			</div>
+
 			<div class="grid grid-cols-2 gap-8 py-5">
 				<CardComponent>
 					<span slot="title">Network Stats</span>
@@ -153,12 +196,12 @@
 
 									<div class="w-full flex justify-between">
 										<span class="capitalize">received rates / second</span>
-										<span class="capitalize">{Math.floor(rx_sec)} b/s</span>
+										<span class="capitalize">{formatBytes(rx_sec)}</span>
 									</div>
 
 									<div class="w-full flex justify-between">
 										<span class="capitalize">transfer rates / second</span>
-										<span class="capitalize">{Math.floor(tx_sec)} b/s</span>
+										<span class="capitalize">{formatBytes(tx_sec)}</span>
 									</div>
 								</div>
 							</li>

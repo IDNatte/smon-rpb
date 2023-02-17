@@ -12,3 +12,15 @@
 		</div>
 	</div>
 </div>
+
+<style>
+	:global(div.smoothie-chart-tooltip) {
+		background: #444;
+		padding: 1em;
+		margin-top: 20px;
+		font-family: consolas;
+		color: white;
+		font-size: 10px;
+		pointer-events: none;
+	}
+</style>
