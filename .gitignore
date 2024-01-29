@@ -11,3 +11,7 @@ vite.config.ts.timestamp-*
 
 /.yarn
 .env
+
+# dev.db
+*.sql
+*.db
