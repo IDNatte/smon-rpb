@@ -16,7 +16,7 @@
 </script>
 
 {#if $navigationStore === 'loading'}
-	<div out:fade={{ delay: 500 }}>
+	<div out:fade|global={{ delay: 500 }}>
 		<PageloadComponent />
 	</div>
 {/if}
