@@ -6,7 +6,7 @@ import { database } from '$lib/module/database/database';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.user) {
-		throw redirect(302, '/dashboard');
+		redirect(302, '/dashboard');
 	}
 };
 
@@ -51,6 +51,6 @@ export const actions: Actions = {
 			maxAge: 60 * 60 * 24 * 30
 		});
 
-		throw redirect(302, '/dashboard');
+		redirect(302, '/dashboard');
 	}
 };
